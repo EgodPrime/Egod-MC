@@ -10,7 +10,8 @@ PandaMod.java
 INFO.java
 mcmod.info
 ```
-![基本结构]（F1.bmp）
+![](F1.bmp)
+
 其中`PandaMod.java`类定义了MOD的入口，并体现了使用FML向游戏本体写入MOD基本函数（或者叫监听事件）
 ```
 @Mod(modid = INFO.MODID,name = INFO.NAME,version = INFO.VERSION)
@@ -67,4 +68,5 @@ public class INFO {
 ```
 注意到`"logFile"`这一栏填入了`"panda_log.png"`，而这个`panda_log.png`是与mcmod.info放在同一个目录下即可的。
 此处送上`panda_log.png`
+
 ![panda_log.png](panda_log.png)
