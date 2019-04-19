@@ -5,35 +5,24 @@
 -Java：1.8.0_201
 -Java VM: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
 -操作系统系统：Windows 10:amd64:10.0
+-开发环境：Eclipse
 ```
-### Markdown
+### 目录
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+目录的顺序是按照本人的学习顺序，基本上可以视作由简单到复杂，但是最简单的也不太简单
 
 ```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
+**
+1. 让一个MOD运行起来的基本框架
+2. 创建一个方块：熊猫矿石（不包含在世界上生成）
+3. 创建一个金属锭：熊猫锭
+3.1 为熊猫矿石和熊猫锭添加熔炼途径
+4. 创建一个熊猫工具
+4.1 为熊猫工具创建一个合成配方
+5. 创建一个熊猫道具
+5.1 为熊猫道具创建一个合成配方
+5.2 为熊猫道具添加一个功能
+**
 [Link](url) and ![Image](src)
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/SingleBone/egod.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
