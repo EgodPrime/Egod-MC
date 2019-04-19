@@ -1,8 +1,10 @@
-## Welcome to GitHub Pages
+## 这是记录我《我的世界》MOD开发学习的网页
 
-You can use the [editor on GitHub](https://github.com/SingleBone/egod.github.io/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+ -Minecraft：1.12.2
+ -Forge Mod Loader(FML)：14.23.5.2768
+ -Java：1.8.0_201
+ -Java VM: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+ -操作系统系统：Windows 10:amd64:10.0
 
 ### Markdown
 
