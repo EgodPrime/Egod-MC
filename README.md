@@ -13,7 +13,7 @@
 
 ```markdown
 
-1. [让一个MOD运行起来的基本框架](./chapter/CPT-1.md)
+1. [让一个MOD运行起来的基本框架](https://github.com/SingleBone/Egod-MC/chapter/CPT-1.md)
 2. 创建一个方块：熊猫矿石（不包含在世界上生成）
 3. 创建一个金属锭：熊猫锭
  3.1 为熊猫矿石和熊猫锭添加熔炼途径
