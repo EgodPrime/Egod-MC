@@ -45,7 +45,7 @@ public class INFO {
 ```
 到此处，使用Eclipse进行Run,
 ![](F2.bmp)
-进入游戏初始界面后，点击MOD并翻阅，可以看到一个名为 **Panda Mod** 的 Mod
+进入游戏初始界面后，点击Mods并翻阅，可以看到一个名为 **Panda Mod** 的 Mod
 ![](F3.bmp)
 嗯。。为什么有个熊猫头？ 因为这是熊猫MOD的LOGO，可以通过mcmod.info进行设置。
 ```
@@ -70,3 +70,7 @@ public class INFO {
 此处送上`panda_log.png`
 
 ![panda_log.png](panda_log.png)
+
+上一章：无
+
+下一章：[2.创建一个方块：熊猫矿石（不包含在世界上生成）](../CPT2/CPT-2.md)
