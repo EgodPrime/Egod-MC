@@ -1,11 +1,11 @@
 ## 这是记录我《我的世界》MOD开发学习的网页
-
- -Minecraft：1.12.2
- -Forge Mod Loader(FML)：14.23.5.2768
- -Java：1.8.0_201
- -Java VM: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
- -操作系统系统：Windows 10:amd64:10.0
-
+```markdown
+-Minecraft：1.12.2
+-Forge Mod Loader(FML)：14.23.5.2768
+-Java：1.8.0_201
+-Java VM: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+-操作系统系统：Windows 10:amd64:10.0
+```
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
