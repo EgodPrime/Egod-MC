@@ -9,6 +9,7 @@ com.egod.panda
 PandaMod.java
 INFO.java
 ```
+![基本结构]（/chapter/CPT-1-F1.bmp）
 其中`PandaMod.java`类定义了MOD的入口，并体现了使用FML向游戏本体写入MOD基本函数（或者叫监听事件）
 ```
 @Mod(modid = INFO.MODID,name = INFO.NAME,version = INFO.VERSION)
