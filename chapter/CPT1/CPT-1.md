@@ -47,7 +47,7 @@ public class INFO {
 ![](F2.bmp)
 进入游戏初始界面后，点击Mods并翻阅，可以看到一个名为 **Panda Mod** 的 Mod
 ![](F3.bmp)
-嗯。。为什么有个熊猫头？ 因为这是熊猫MOD的LOGO，可以通过mcmod.info进行设置。
+嗯。。为什么有个熊猫头？ 因为这是熊猫MOD的LOGO，可以通过src/main/resource/mcmod.info进行设置。
 ```
 [
 {
