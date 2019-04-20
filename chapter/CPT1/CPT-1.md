@@ -13,7 +13,7 @@ mcmod.info
 ![](F1.bmp)
 
 其中`PandaMod.java`类定义了MOD的入口，利用FML的事件向游戏本体写入MOD所包含的物品、功能
-```
+```java
 @Mod(modid = INFO.MODID,name = INFO.NAME,version = INFO.VERSION)
 public class PandaMod {
 	
@@ -36,7 +36,7 @@ public class PandaMod {
 
 `INFO.MODID`**是啥？** 莫慌，`INFO.java`类是一个用来存储MOD信息的类，里面基本上只含有静态变量，可以理解为一个存储了MOD信息
 的txt文件。
-```
+```java
 public class INFO {
 	public static final String MODID = "panda_mod";
 	public static final String NAME = "Panda Mod";

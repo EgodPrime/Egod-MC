@@ -9,7 +9,7 @@
 ```
 首先确定要建立的`.java`文件名为`PandaRock.java`，我把它叫作熊猫岩石。这个类继承了`net.minecraft.block`中的`Block`类，继承，往往是我们
 代码简单的源头。
-```
+```java
 public class PandaRock extends Block{
     public PandaRock(){}
 }
@@ -20,7 +20,7 @@ public class PandaRock extends Block{
 了以后方便管理而已，你也完全可以把很多文件胡乱的放在一起。
 
 现在它还什么都没有，接下来完善它的构造函数
-```
+```java
 // 为熊猫岩石设置一个静态属性——它的名字，并且会在下面用到
 private static final String name = "panda_rock";
 
@@ -55,7 +55,7 @@ public PandaRock() {
 }
 ```
 重点关注的是下面这两行代码
-```
+```java
   setRegistryName(name); 
   
   setUnlocalizedName(INFO.MODID+":"+name+"_item"); 
@@ -68,7 +68,7 @@ public PandaRock() {
 严格的命名匹配。
 ![](F2.bmp)
 #### panda_rock.json
-```
+```json
 {
     "variants":{
         "normal":{"model":"panda_mod:panda_rock_block"}
@@ -78,7 +78,7 @@ public PandaRock() {
 此处的`"model":"panda_mod:panda_rock_block"`表明，该方块的模型将使用`src/main/resources/assets/panda_mod/models/block`
 目录下的`panda_rock_block.json`文件。
 #### panda_rock_item.json
-```
+```json
 {
     "parent":"panda_mod:block/panda_rock_block"
 }
@@ -89,7 +89,7 @@ public PandaRock() {
 则是用来表示熊猫岩石在物品栏中作为一个物品时的模型，对于方块来说，这两个是几乎一样的，所以在`panda_rock_item.json`中直接继承
 `panda_rock_block.json`模型的属性就好。
 #### panda_rock_block.json
-```
+```json
 {
     "parent": "block/cube_all",
     "textures": {
@@ -137,7 +137,7 @@ tile.panda_mod:panda_rock_item.name=熊猫矿石
 
 先来创建一个ItemRegister类来帮助我们统一管理所有的物品进行名义上的注册已经创建实例。（可以的话，先创建一个`init`子包，将`ItemRegister.java`放在里面）
 #### ItemRegister.java
-```
+```java
 @Mod.EventBusSubscriber(modid = INFO.MODID)
 public class ItemRegister {
     // 创建PandaRock的一个实例
@@ -171,7 +171,7 @@ public class ItemRegister {
 ```
 第二步，创建一个ModelRegister类来帮助我们管理所有物品进行本地资源的注册（让他们能够以图形的方式给我们看）
 #### ModelRegister
-```
+```java
 public class ModelRegister {
     
     // 搭公交车
@@ -202,7 +202,7 @@ public class ModelRegister {
 
 ![](F6.bmp)
 
-```
+```java
 @Mod(modid = INFO.MODID,name = INFO.NAME,version = INFO.VERSION)
 public class PandaMod {
     
@@ -233,7 +233,7 @@ FML为你指明了正确的做法：使用端口代理（Proxy），在不同的
 
 首先创建一个Proxy公共接口，它规定了一个Proxy应该有哪些方法
 #### CommonProxy.java
-```
+```java
 public interface CommonProxy {
 	
     abstract public boolean isServerSide();
@@ -250,7 +250,7 @@ public interface CommonProxy {
 
 然后创建它的两个接口的实现类
 #### ServerProxy.java
-```
+```java
 public class ServerProxy implements CommonProxy{
 
     public boolean isServerSide() {
@@ -270,7 +270,7 @@ public class ServerProxy implements CommonProxy{
 }
 ```
 #### ClientProxy.java
-```
+```java
 public class ClientProxy implements CommonProxy{
 	
     public boolean isServerSide() {
@@ -293,7 +293,7 @@ public class ClientProxy implements CommonProxy{
 这两个Proxy类一经建立，就不会经常性的变动了，需要经常变动的是`ItemRegister`和`ModelRegister`类。除非有新的注册事件加入。
 
 接下来在入口类（PandaMod.java）中创建代理
-```
+```java
 @Mod(modid = INFO.MODID,name = INFO.NAME,version = INFO.VERSION)
 public class PandaMod {
     @SidedProxy(modId = INFO.MODID,
@@ -321,7 +321,7 @@ public class PandaMod {
 分别指明了在哪里找到相关端要执行的代码。
 
 #### 完整的INFO.java
-```
+```java
 public class INFO {
     public static final String MODID = "panda_mod";
     public static final String NAME = "Panda Mod";
@@ -344,7 +344,7 @@ public class INFO {
 
 #### 2. 我们还可以添加一些额外内容
 在`PandaRock.java`中覆写一个名为`addInformation`的方法
-```
+```java
 @Override
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         if(flagIn.isAdvanced()) {
@@ -377,7 +377,7 @@ tile.panda_mod:panda_rock_item.shift.1.desc=你可以用它来烧制熊猫锭
 ![](F3-1.bmp)
 
 #### 3.设置方块的挖掘属性
-```
+```java
 //矿物相关
     @Nonnull
     @Override
