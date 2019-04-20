@@ -17,7 +17,7 @@
 3. 动手实现每一个功能的代码，即使它有点无聊
 ### 目录
 
-[目录](https://github.com/SingleBone/Egod-MC/chapter/)的顺序是按照本人的学习顺序，基本上可以视作由简单到复杂，但是最简单的也不太简单
+[目录](https://github.com/SingleBone/Egod-MC/tree/master/chapter)的顺序是按照本人的学习顺序，基本上可以视作由简单到复杂，但是最简单的也不太简单
 
 1. [让一个MOD运行起来的基本框架](/chapter/CPT1/CPT-1.md)
 2. [创建一个方块：熊猫矿石（不包含在世界上生成）](/chapter/CPT2/CPT-2.md)
