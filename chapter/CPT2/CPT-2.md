@@ -123,9 +123,215 @@ tile.panda_mod:panda_rock_item.name=熊猫矿石
 ```
 创建这个.lang文件时，注意`右键-Properties`，设置字符编码模式为utf-8，不然在游戏中会变成乱码
 
-到这一步，这个方块已经基本成型了，效果图如下
+到这一步，这个方块已经基本成型了，效果图如下，但是你目前仍然不会有显示，因为还没有注册该物品
 ![](F3.bmp)
 ![](F3-1.bmp)
+#### 注册物品(稍微复杂)
+注册一个物品（方块）分为两步
+* 使用物品名进行名义上的注册
+* 使用Unlocalized Name对模型进行本地资源注册
+通常来讲，我们所创建的物品（方块），在服务器端只需要创建一个示例就好（也就是一堆代码，没有图形），而在客户端，则对其进行渲染（也就是能看到图形）。
+
+在新版本的Forge中，它推荐我们通过**注册事件**来进行物品注册。你可以理解为游戏开始时，很多游戏本体的物品会开始注册，而你就在此时搭乘顺风车把你创建
+的物品也一起注册了。
+
+先来创建一个ItemRegister类来帮助我们统一管理所有的物品进行名义上的注册已经创建实例。（可以的话，先创建一个`init`子包，将`ItemRegister.java`放在里面）
+#### ItemRegister.java
+```
+@Mod.EventBusSubscriber(modid = INFO.MODID)
+public class ItemRegister {
+    // 创建PandaRock的一个实例
+    public static final PandaRock pandaRock = new PandaRock();
+
+    // 直接利用PandaRock实例创建在物品栏中熊猫岩石方块的实例
+	public static final ItemBlock pandaRockItem = new ItemBlock(pandaRock);
+    
+    // 上事件注册的公交车，从而可以开始偷偷观察什么时候开始物品注册
+    public ItemRegister() {
+        MinecraftForge.EVENT_BUS.register(this);
+    }
+    
+    // 注册方块，通过捕获Block的注册事件，顺便把熊猫岩石也注册了
+    @SubscribeEvent
+    public static void registerBlock(RegistryEvent.Register<Block> event) {
+        event.getRegistry().registerAll(
+                pandaRock
+                );
+    }
+
+    // 注册物品，通过捕获Item的注册时间，顺便把熊猫岩石在物品栏中的物品也注册了
+    @SubscribeEvent
+    public static void registerItem(RegistryEvent.Register<Item> event) {
+        pandaRockItem.setRegistryName(pandaRock.getRegistryName());
+        event.getRegistry().registerAll(
+                pandaRockItem,
+                );
+    }
+}
+```
+第二步，创建一个ModelRegister类来帮助我们管理所有物品进行本地资源的注册（让他们能够以图形的方式给我们看）
+#### ModelRegister
+```
+public class ModelRegister {
+    
+    // 搭公交车
+    public ModelRegister() {
+        MinecraftForge.EVENT_BUS.register(this);
+    }
+    
+    // 注册本地资源模型，通过捕获 模型注册事件 ，顺便把熊猫岩石的模型也注册了
+    @SubscribeEvent
+    public void registerItemModels(ModelRegistryEvent event) {
+        registerItemModel(ItemRegister.pandaRockItem);
+        }
+    }
+    
+    // 将注册手续格式化为一个方法，避免物品多了一个重复劳动
+    // 此处item.getUnlocalizedName().replace("tile.", "").replace("item.", "") 用了两个replace是因为
+    //   getUnlocalizedName()方法在返回时会加上前缀，而在src/main/resources中我的文件没有这个前缀，为了
+    //   不报错，我手动去掉它
+    private void registerItemModel(Item item) {
+        ModelLoader.setCustomModelResourceLocation(item,0,
+                        new ModelResourceLocation(
+                        item.getUnlocalizedName().replace("tile.", "").replace("item.", ""),
+                        "inventory"));
+    ｝
+}
+```
+然后你就可以直接（并不推荐）在`PandaMod.java`中调用这两个类了
+
+![](F6.bmp)
+
+```
+@Mod(modid = INFO.MODID,name = INFO.NAME,version = INFO.VERSION)
+public class PandaMod {
+    
+    @EventHandler
+    public void preLoad(FMLPreInitializationEvent event)
+    {
+        new ItemRegister();
+        new ModelRegister();
+    }
+     
+    @EventHandler
+    public void load(FMLInitializationEvent event)
+    {	
+    }
+     
+    @EventHandler
+    public void postLoad(FMLPostInitializationEvent event)
+    {
+    }
+}
+```
+这样做，你确实可以在游戏中看到它了，很多简单教程也会教你这么干，但是这样会浪费资源，因为你同时在服务器端和客户端创建了实例，注册了信息并注册了本地化资源，
+也就是说你的服务器端也开始显示模型的图像，这毫无意义。
+
+FML为你指明了正确的做法：使用端口代理（Proxy），在不同的端口做不同的事。比如，只在服务器端进行名义上的注册和创建物品实例，只在客户端对物品进行图形建模和渲染。
+
+![](F7.bmp)
+
+首先创建一个Proxy公共接口，它规定了一个Proxy应该有哪些方法
+#### CommonProxy.java
+```
+public interface CommonProxy {
+	
+    abstract public boolean isServerSide();
+    
+    public void preInit(FMLPreInitializationEvent event); 
+    
+    public void init(FMLInitializationEvent event); 
+    
+    public void postInit(FMLPostInitializationEvent event);
+	
+}
+```
+你也许会发现`preInit`，`init`，`postInit`隐隐地与`PandaMod.java`中的`preLoad`，`load`，`postLoad`对应上了，实际上，就是这样的
+
+然后创建它的两个接口的实现类
+#### ServerProxy.java
+```
+public class ServerProxy implements CommonProxy{
+
+    public boolean isServerSide() {
+        return true;
+    }
+    public void preInit(FMLPreInitializationEvent event) {
+        new ItemRegister();
+    }
+    
+    public void init(FMLInitializationEvent event) {
+
+    }
+    
+    public void postInit(FMLPostInitializationEvent event) {
+    	
+    }
+}
+```
+#### ClientProxy.java
+```
+public class ClientProxy implements CommonProxy{
+	
+    public boolean isServerSide() {
+        return false;
+    }
+    
+    public void preInit(FMLPreInitializationEvent event) {
+        new ModelRegister();
+    }
+    
+    public void init(FMLInitializationEvent event) {
+    	
+    }
+    
+    public void postInit(FMLPostInitializationEvent event) {
+    	
+    }
+}
+```
+这两个Proxy类一经建立，就不会经常性的变动了，需要经常变动的是`ItemRegister`和`ModelRegister`类。除非有新的注册事件加入。
+
+接下来在入口类（PandaMod.java）中创建代理
+```
+@Mod(modid = INFO.MODID,name = INFO.NAME,version = INFO.VERSION)
+public class PandaMod {
+    @SidedProxy(modId = INFO.MODID,
+                serverSide = INFO.SERVER_PROXY,clientSide = INFO.CLIENT_PROXY)
+    public static CommonProxy proxy;
+    
+    @EventHandler
+    public void preLoad(FMLPreInitializationEvent event)
+    {
+        proxy.preInit(event);
+    }
+     
+    @EventHandler
+    public void load(FMLInitializationEvent event)
+    {	
+    }
+     
+    @EventHandler
+    public void postLoad(FMLPostInitializationEvent event)
+    {
+    }
+}
+```
+此处使用了**Annotation**`@SidedProxy`，它会起到让FML分清楚在哪一个端执行哪一部分代码的作用，其参数`serverSide`和`clientSide`
+分别指明了在哪里找到相关端要执行的代码。
+
+#### 完整的INFO.java
+```
+public class INFO {
+    public static final String MODID = "panda_mod";
+    public static final String NAME = "Panda Mod";
+    public static final String VERSION = "1.0.0";
+    public static final String CLIENT_PROXY = "com.egod.panda.proxy.ClientProxy";
+    public static final String SERVER_PROXY = "com.egod.panda.proxy.ServerProxy";
+}
+```
+
+到这一步，你的第一个方块已经完美生成了，enjoy!
 
 上一章：[1.让一个MOD运行起来的基本框架](../CPT1/CPT-1.md)
 
